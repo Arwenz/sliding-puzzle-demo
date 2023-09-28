@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "clean": "rm -rf node_modules && rm -rf .next && rm -rf styled-system && npm cache clean --force",
-    "setup": "npm run clean && npm install"
+    "setup": "npm run clean && npm install",
+    "prepare": "panda codegen"
   },
   "dependencies": {
     "@radix-ui/react-switch": "^1.0.3",
@@ -19,6 +20,7 @@
     "react": "18.2.0"
   },
   "devDependencies": {
+    "@pandacss/dev": "^0.15.3",
     "classnames": "^2.3.2",
     "eslint": "^8.49.0",
     "typescript": "^5.2.2"
