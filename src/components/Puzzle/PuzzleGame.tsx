@@ -1,16 +1,21 @@
-import React, { useEffect, useState } from 'react';
-import { shuffleArray } from '@/utils/common';
-import { findEmptyPosition, initializeBoard, isPuzzleSolved, unflattenBoard } from '@/utils/puzzle';
-import PuzzleTile from './PuzzleTile';
-import { PuzzleGameProps } from './types';
-import { PandaCSS } from '../PandaCSS';
+import React, { useEffect, useState } from "react";
+import { shuffleArray } from "@/utils/common";
+import {
+  findEmptyPosition,
+  initializeBoard,
+  isPuzzleSolved,
+  unflattenBoard,
+} from "@/utils/puzzle";
+import PuzzleTile from "./PuzzleTile";
+import { PuzzleGameProps } from "./types";
+import { PandaCSS } from "../PandaCSS";
+import classNames from "classnames";
+import { grid } from "../../../styled-system/patterns";
 
 const PuzzleGame = (props: PuzzleGameProps) => {
   const { puzzleTiles, showTilesNumbers, gameState, setGameState } = props;
-
   const puzzleSize: number = Math.sqrt(puzzleTiles.length);
   const board: (number | null)[][] = initializeBoard(puzzleSize, puzzleSize);
-
   const [boardTiles, setBoardTiles] = useState<(number | null)[][]>(board);
 
   /**
@@ -61,6 +66,7 @@ const PuzzleGame = (props: PuzzleGameProps) => {
     const flattenedBoard = shuffleArray(board.flat());
     const boardTiles = unflattenBoard(flattenedBoard, puzzleSize, puzzleSize);
     setBoardTiles(boardTiles);
+    console.log(boardTiles);
     setGameState((prevState) => ({
       ...prevState,
       new: false,
@@ -77,6 +83,10 @@ const PuzzleGame = (props: PuzzleGameProps) => {
     }
   }, [gameState.new]);
 
+  const PuzzleGrid = classNames(
+    `grid-${puzzleSize}`
+  );
+
   return (
     <>
       {/*
@@ -84,26 +94,29 @@ const PuzzleGame = (props: PuzzleGameProps) => {
         Workaround to have grid columns preprocessed by Panda so the change
         of the puzzle size does not break the tiles on the board.
       */}
-      <div className="puzzle-outer-wrapper">
-        <div className="puzzle-inner-wrapper">
-          {boardTiles.map((row, rowIndex) => (
-            <div key={rowIndex} className="puzzle-row">
-              {row.map((tile, colIndex) => (
-                <PuzzleTile
-                  key={colIndex}
-                  id={tile !== null ? puzzleTiles[tile].id : -1}
-                  imageSrc={tile !== null ? puzzleTiles[tile].imageSrc : undefined}
-                  label={tile !== null && showTilesNumbers ? `${tile + 1}` : false}
-                  handleClick={() => handleTileClick(rowIndex, colIndex)}
-                />
-              ))}
-            </div>
-          ))}
+      <div className={PandaCSS.Puzzle.PuzzleOuterWrapper}>
+        <div className={`${PandaCSS.Puzzle.PuzzleInnerWrapper} ${PuzzleGrid}`}>
+          {boardTiles.length === (puzzleTiles.length / puzzleSize)  &&
+            boardTiles.map((row, rowIndex) => (
+              <div key={rowIndex} className={PandaCSS.Puzzle.PuzzleRow}>
+                {row.map((tile, colIndex) => (
+                  <PuzzleTile
+                    key={colIndex}
+                    id={tile !== null ? puzzleTiles[tile].id : -1}
+                    imageSrc={
+                      tile !== null ? puzzleTiles[tile].imageSrc : undefined
+                    }
+                    label={
+                      tile !== null && showTilesNumbers ? `${tile + 1}` : false
+                    }
+                    handleClick={() => handleTileClick(rowIndex, colIndex)}
+                  />
+                ))}
+              </div>
+            ))}
         </div>
         {/* @TODO: Replace empty div with congratulations/fail message */}
-        {gameState.ended && (
-          <div />
-        )}
+        {gameState.ended && <div />}
       </div>
     </>
   );

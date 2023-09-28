@@ -1,24 +1,28 @@
-import classNames from 'classnames';
-import React from 'react';
-import { AvatarProps } from './types';
-import { css } from '../../../styled-system/css';
+import classNames from "classnames";
+import React from "react";
+import { AvatarProps } from "./types";
+import * as RadixAvatar from "@radix-ui/react-avatar";
+import { PandaCSS } from "../PandaCSS";
 
 const Avatar = (props: AvatarProps) => {
   const { id, image, active = false, handleClick } = props;
   const { src, alt } = image;
 
-  const classNameAvatar = classNames(
-    'avatar',
-    // This is the new line containing Panda CSS-in-JS function
-    css({ border: '4px solid green' }),
-    active ? 'active' : false,
+  const classNameActive = classNames(
+    active ? "active" : false
   );
 
   // @TODO: Implement Radix Avatar.
+  // DONE.
   return (
-    <div className={classNameAvatar} onClick={() => handleClick(src, id)}>
-      <img src={src} alt={alt} />
-    </div>
+    <RadixAvatar.Root className={`${PandaCSS.Avatar.AvatarContainer} ${classNameActive}`} onClick={() => handleClick(src, id)}>
+      <RadixAvatar.Image
+        className={PandaCSS.Avatar.AvatarImg}
+        src={src}
+        alt={alt}
+      />
+      <RadixAvatar.Fallback className="AvatarFallback" delayMs={600}>CT</RadixAvatar.Fallback>
+    </RadixAvatar.Root>
   );
 };
 
