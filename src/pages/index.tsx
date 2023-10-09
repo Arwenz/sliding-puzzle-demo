@@ -1,32 +1,40 @@
-import fs from 'fs';
-import path from 'path';
-import Head from 'next/head';
-import Image from 'next/image';
-import React, { useEffect, useState } from 'react';
-import { Avatar } from '@/components/Avatar';
-import { Infobar } from '@/components/Infobar';
-import { PageSection } from '@/components/PageSection';
+import fs from "fs";
+import path from "path";
+import Head from "next/head";
+import Image from "next/image";
+import React, { useEffect, useState } from "react";
+import { Avatar } from "@/components/Avatar";
+import { Infobar } from "@/components/Infobar";
+import { PageSection } from "@/components/PageSection";
 import {
   GameState,
   PuzzleConfigs,
   PuzzleGame,
   PuzzleTileBaseProps,
   PuzzleTileProps,
-} from '@/components/Puzzle';
-import { initializePuzzleTiles } from '@/utils/puzzle';
+} from "@/components/Puzzle";
+import { initializePuzzleTiles } from "@/utils/puzzle";
+import { css } from "../../styled-system/css";
+import classNames from "classnames";
+import { CircleBackslashIcon } from "@radix-ui/react-icons";
+import { flex } from "../../styled-system/patterns/flex";
+import { PandaCSS } from "@/components/PandaCSS";
 
 export async function getServerSideProps() {
   const puzzleSize: number = 3;
-  const avatarImageDirectory: string = 'images/avatars';
-  const originalImageSrc: string = `${avatarImageDirectory}/panda.jpeg`;
+  const avatarImageDirectory: string = "images/avatars";
+  const originalImageSrc: string = `${avatarImageDirectory}/oliver-merlin.jpg`;
   let avatarImageFilenames: string[] = [];
   let puzzleTiles: PuzzleTileBaseProps[] = [];
 
   try {
-    const imageDirectory = path.join(process.cwd(), `public/${avatarImageDirectory}`);
+    const imageDirectory = path.join(
+      process.cwd(),
+      `public/${avatarImageDirectory}`
+    );
     avatarImageFilenames = fs.readdirSync(imageDirectory);
   } catch (error) {
-    console.error('Error loading avatars:', error);
+    console.error("Error loading avatars:", error);
   }
 
   try {
@@ -34,7 +42,7 @@ export async function getServerSideProps() {
     // Initialize puzzle tiles on the server side.
     puzzleTiles = await initializePuzzleTiles(originalImageSrc, puzzleSize);
   } catch (error) {
-    console.error('Error initializing puzzle pieces:', error);
+    console.error("Error initializing puzzle pieces:", error);
   }
 
   return {
@@ -88,10 +96,10 @@ const Home: React.FC<HomeProps> = ({
   const updatePuzzleGame = (puzzleSize: number, path: string) => {
     // Handle the click event here
     // Send an HTTP request to the server
-    fetch('/api/load-image', {
-      method: 'POST',
+    fetch("/api/load-image", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       // You can send data in the request body if needed
       body: JSON.stringify({ puzzleSize, path }),
@@ -104,7 +112,7 @@ const Home: React.FC<HomeProps> = ({
       })
       .catch((error) => {
         // Handle any errors
-        console.error('Error:', error);
+        console.error("Error:", error);
       });
   };
 
@@ -165,16 +173,17 @@ const Home: React.FC<HomeProps> = ({
     }
   }, [gameState.timer, gameState.timeRemaining]);
 
-  const title = 'Sliding Puzzle Demo';
-  const description = 'Description';
+  const title = "Oliver & Merlin Sliding Puzzle";
+  const description =
+    "Do you think it's paw-sible to solve these puzzles of Oliver & Merlin? Good luck!";
 
   const timerOptions = [
-    { name: 'Unlimited', value: '0' },
-    { name: '1 hour', value: '60' },
-    { name: '30 minutes', value: '30' },
-    { name: '10 minutes', value: '10' },
-    { name: '5 minutes', value: '5' },
-    { name: '1 minute', value: '1' },
+    { name: "Unlimited", value: "0" },
+    { name: "1 hour", value: "60" },
+    { name: "30 minutes", value: "30" },
+    { name: "10 minutes", value: "10" },
+    { name: "5 minutes", value: "5" },
+    { name: "1 minute", value: "1" },
   ];
 
   return (
@@ -184,20 +193,20 @@ const Home: React.FC<HomeProps> = ({
         <meta name="description" content={description} />
       </Head>
       <PageSection>
-        <h1 className="typography-h1">{title}</h1>
+        <h1 className={PandaCSS.Typography.H1}>{title}</h1>
         <hr />
-        <div className="typography-body">{description}</div>
+        <h2 className={PandaCSS.Typography.H2}>{description}</h2>
       </PageSection>
-      <div className="dark-background">
+      <div className={css({ bg: "#9ca2b0" })}>
         <PageSection>
-          <div className="avatar-container">
+          <div className={PandaCSS.Avatar.Avatars}>
             {avatarImageFilenames.map((avatar, idx) => (
               <Avatar
                 key={idx}
                 id={idx}
                 image={{
                   src: `${avatarImageDirectory}/${avatar}`,
-                  alt: `${avatar.replace('.jpeg', '')}`,
+                  alt: `${avatar.replace(".jpeg", "")}`,
                 }}
                 active={avatarActiveId === idx}
                 handleClick={handleClick}
@@ -207,7 +216,7 @@ const Home: React.FC<HomeProps> = ({
         </PageSection>
       </div>
       <PageSection>
-        <div className="puzzle-configs">
+        <div className={PandaCSS.Puzzle.PuzzleConfigs}>
           <PuzzleConfigs
             timerOptions={timerOptions}
             setPuzzleSize={setPuzzleSize}
@@ -216,28 +225,30 @@ const Home: React.FC<HomeProps> = ({
             toggleTilesNumbers={toggleTilesNumbers}
           />
         </div>
-        <div className="puzzle-container">
+        <div className={PandaCSS.Puzzle.PuzzleContainer}>
           <PuzzleGame
             puzzleTiles={tiles}
             showTilesNumbers={showNumbers}
             gameState={gameState}
             setGameState={setGameState}
           />
-          <div className="original-image-container">
+          <div className={PandaCSS.ImageContainer.originalImage}>
             <Image
               src={`/${originalSrc}`}
               alt="Original Image"
-              width="500"
-              height="500"
+              width="462"
+              height="462"
             />
             {!displayMirror && (
-              <div className="original-image-overlay">
-                {/* @TODO: Place overlay icon here if you want. */}
+              <div className={PandaCSS.ImageContainer.overlayImage}>
+                {/* @TODO: Place overlay icon here if you want. */
+                /* DONE */}
+                <CircleBackslashIcon width="200px" height="200px" color="white" />
               </div>
             )}
           </div>
         </div>
-        <div className="puzzle-info-container">
+        <div className={PandaCSS.Puzzle.PuzzleInfoContainer}>
           <Infobar
             moves={gameState.moves}
             timer={gameState.timer}

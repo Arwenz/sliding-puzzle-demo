@@ -1,28 +1,23 @@
-import Link from 'next/link';
-import { PageSection } from '../PageSection';
+import Link from "next/link";
+import { PageSection } from "../PageSection";
+import { PandaCSS } from "../PandaCSS";
 
 const Footer = () => {
-
   // @TODO: Populate social medias.
   const socialMedias = [
     {
-      label: 'LinkedIn',
-      url: 'https://...',
+      label: "LinkedIn",
+      url: "https://...",
       // @TODO: Replace with Radix/custom Logos.
       logo: <div />,
     },
   ];
 
   return (
-    <footer className="footer-container dark-background">
+    <footer className={PandaCSS.Footer.FooterContainer}>
       <PageSection>
-        <div className="footer-inner-container">
-          <div className="footer-copyright">
-            © 2023 Dev
-          </div>
-          <div className="device-mobile-only">
-            <hr />
-          </div>
+        <div className={PandaCSS.Footer.FooterInnerContainer}>
+          <div>© 2023 Dev</div>
           <div>
             <ul className="footer-social-medias-container">
               {socialMedias.map((media, idx) => (

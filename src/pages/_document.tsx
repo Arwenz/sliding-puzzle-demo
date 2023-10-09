@@ -1,3 +1,4 @@
+import { PandaCSS } from "@/components/PandaCSS";
 import Document, {
   Html,
   Head,
@@ -5,10 +6,12 @@ import Document, {
   NextScript,
   DocumentContext,
   DocumentInitialProps,
-} from 'next/document';
+} from "next/document";
 
 class CustomDocument extends Document {
-  static async getInitialProps(ctx: DocumentContext): Promise<DocumentInitialProps> {
+  static async getInitialProps(
+    ctx: DocumentContext
+  ): Promise<DocumentInitialProps> {
     const originalRenderPage = ctx.renderPage;
 
     // Run the React rendering logic synchronously.
@@ -37,17 +40,17 @@ class CustomDocument extends Document {
           */}
           <link rel="preconnect" href="https://fonts.googleapis.com" />
           <link rel="preconnect" href="https://fonts.gstatic.com" />
+          <link rel="preconnect" href="https://fonts.googleapis.com" />
           <link
-            href="https://fonts.googleapis.com/css2?family=Poppins&display=swap"
+            href="https://fonts.googleapis.com/css2?family=Roboto&display=swap"
             rel="stylesheet"
           />
         </Head>
-        {
-          /*
+        {/*
             @TODO: Body styles go here.
-          */
-        }
-        <body>
+            DONE.
+          */}
+        <body className={PandaCSS.Body}>
           <Main />
           <NextScript />
         </body>
