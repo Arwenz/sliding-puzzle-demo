@@ -9,13 +9,6 @@ import { Select } from "../Select/Select";
 const PuzzleConfigs = (props: PuzzleConfigsProps) => {
   const { toggleMirror, toggleTilesNumbers, setPuzzleSize } = props;
 
-  const selectItems = [
-    { value: '1', label: '1 minute' },
-    { value: '3', label: '3 minutes' },
-    { value: '5', label: '5 minutes' },
-    { value: '10', label: '10 minutes' },
-  ];
-
   return (
     <>
       {/* @TODO: Add a Radix slider to control number of tiles, if you wish. */
@@ -59,9 +52,6 @@ const PuzzleConfigs = (props: PuzzleConfigsProps) => {
         />
       </div>
       {/* @TODO: Add a Radix select for the timer, if you wish. */}
-      <div>
-        <Select items={selectItems} name="time" />
-      </div>
     </>
   );
 };
