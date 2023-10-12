@@ -155,7 +155,8 @@ const Home: React.FC<HomeProps> = ({
     setGameState((prevState) => ({
       ...prevState,
       ...initialGameState,
-      timeRemaining: gameState.timer,
+      timeRemaining: 0,
+      timer: 0
     }));
   };
 

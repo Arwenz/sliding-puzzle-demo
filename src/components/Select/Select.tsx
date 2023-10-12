@@ -8,17 +8,23 @@ import {
 import { PandaCSS } from "../PandaCSS";
 
 type ItemProps = {
+  name: string;
   value: string;
-  label: string;
 };
+
 type SelectProps = RadixSelect.SelectProps & {
   items: ItemProps[];
   name: string;
+  onValueChange?(value: string): void;
 };
+
 const Select = (props: SelectProps) => {
-  console.log("props", props);
   return (
-    <RadixSelect.Root name={props.name} required>
+    <RadixSelect.Root
+      name={props.name}
+      onValueChange={props.onValueChange}
+      required
+    >
       <RadixSelect.Trigger
         className={PandaCSS.Select.cssSelectTrigger}
         {...props}
@@ -38,7 +44,7 @@ const Select = (props: SelectProps) => {
           <RadixSelect.Viewport className={PandaCSS.Select.cssSelectViewport}>
             {props.items.map((item, index) => (
               <SelectItem key={index} value={item.value}>
-                {item.label}
+                {item.name}
               </SelectItem>
             ))}
           </RadixSelect.Viewport>

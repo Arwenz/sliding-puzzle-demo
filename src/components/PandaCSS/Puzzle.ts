@@ -30,6 +30,8 @@ const PuzzleContainer = classNames(
   css({
     display: "grid",
     gap: "16px",
+    pb: "50px",
+    position: "relative"
   }),
   grid({
     columns: 2,
@@ -46,7 +48,7 @@ const PuzzleInfoContainer = css({
 
 const PuzzleInnerWrapper = classNames(
   css({
-    display: "grid",
+    display: "grid"
   }),
   grid({
     gap: "3px",
@@ -102,6 +104,13 @@ const PuzzleTile = css({
   cursor: "pointer"
 });
 
+const DefaultMessage = css({
+  position: "absolute",
+  bottom: "0",
+  w: "100%",
+  textAlign: "center"
+});
+
 export const Puzzle = {
   PuzzleConfigs,
   PuzzleConfigsItem,
@@ -112,4 +121,5 @@ export const Puzzle = {
   PuzzleRow,
   PuzzleTileContainer,
   PuzzleTile,
+  DefaultMessage,
 };
