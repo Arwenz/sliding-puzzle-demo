@@ -7,7 +7,7 @@ import * as Slider from "@radix-ui/react-slider";
 import { Select } from "../Select/Select";
 
 const PuzzleConfigs = (props: PuzzleConfigsProps) => {
-  const { toggleMirror, toggleTilesNumbers, setPuzzleSize } = props;
+  const { toggleMirror, toggleTilesNumbers, setPuzzleSize, setTimer, timerOptions } = props;
 
   return (
     <>
@@ -25,7 +25,10 @@ const PuzzleConfigs = (props: PuzzleConfigsProps) => {
           <Slider.Track className={PandaCSS.Slider.SliderTrack}>
             <Slider.Range className={PandaCSS.Slider.SliderRange} />
           </Slider.Track>
-          <Slider.Thumb className={PandaCSS.Slider.SliderThumb} aria-label="Volume" />
+          <Slider.Thumb
+            className={PandaCSS.Slider.SliderThumb}
+            aria-label="Volume"
+          />
         </Slider.Root>
       </form>
       <div className={PandaCSS.Puzzle.PuzzleConfigsItem}>
@@ -52,6 +55,9 @@ const PuzzleConfigs = (props: PuzzleConfigsProps) => {
         />
       </div>
       {/* @TODO: Add a Radix select for the timer, if you wish. */}
+      <form>
+        <Select items={timerOptions} name="time" onValueChange={setTimer} />
+      </form>
     </>
   );
 };

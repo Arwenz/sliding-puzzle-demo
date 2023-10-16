@@ -66,7 +66,6 @@ const PuzzleGame = (props: PuzzleGameProps) => {
     const flattenedBoard = shuffleArray(board.flat());
     const boardTiles = unflattenBoard(flattenedBoard, puzzleSize, puzzleSize);
     setBoardTiles(boardTiles);
-    console.log(boardTiles);
     setGameState((prevState) => ({
       ...prevState,
       new: false,
@@ -83,9 +82,7 @@ const PuzzleGame = (props: PuzzleGameProps) => {
     }
   }, [gameState.new]);
 
-  const PuzzleGrid = classNames(
-    `grid-${puzzleSize}`
-  );
+  const PuzzleGrid = classNames(`grid-${puzzleSize}`);
 
   return (
     <>
@@ -96,7 +93,7 @@ const PuzzleGame = (props: PuzzleGameProps) => {
       */}
       <div className={PandaCSS.Puzzle.PuzzleOuterWrapper}>
         <div className={`${PandaCSS.Puzzle.PuzzleInnerWrapper} ${PuzzleGrid}`}>
-          {boardTiles.length === (puzzleTiles.length / puzzleSize)  &&
+          {boardTiles.length === puzzleTiles.length / puzzleSize &&
             boardTiles.map((row, rowIndex) => (
               <div key={rowIndex} className={PandaCSS.Puzzle.PuzzleRow}>
                 {row.map((tile, colIndex) => (
@@ -115,9 +112,17 @@ const PuzzleGame = (props: PuzzleGameProps) => {
               </div>
             ))}
         </div>
-        {/* @TODO: Replace empty div with congratulations/fail message */}
-        {gameState.ended && <div />}
       </div>
+      {/* @TODO: Replace empty div with congratulations/fail message */}
+      <div className={PandaCSS.Puzzle.DefaultMessage}>
+      {gameState.ended ? (
+          gameState.puzzleSolved ? (
+            <p>YOU DID IT!</p>
+          ) : (
+            <p>Time's up! Try again.</p>
+          )
+        ) : <p>GOOD LUCK!</p>}
+        </div>
     </>
   );
 };
